@@ -2,7 +2,7 @@ import { removeBackground } from "@imgly/background-removal";
 import type {
   WorkerMessage,
   WorkerResponse,
-} from "../lib/backgroundRemovalService";
+} from "~/lib/backgroundRemovalService";
 
 self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
   const { id, device, imageData, backgroundColor, customBgColor } = event.data;
