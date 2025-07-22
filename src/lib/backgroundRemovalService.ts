@@ -42,7 +42,7 @@ class BackgroundRemoverService {
     canvas.width = imageData.width;
     canvas.height = imageData.height;
 
-    const ctx = canvas.getContext("2d")!;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
     ctx.putImageData(imageData, 0, 0);
 
     return canvas;
@@ -121,7 +121,7 @@ class BackgroundRemoverService {
 
     this.activeJobs.set(job.id, job);
     // Convert canvas to imageData because Worker can't process canvas
-    const ctx = job.canvas.getContext("2d")!;
+    const ctx = job.canvas.getContext("2d", { willReadFrequently: true })!;
     const imageData = ctx.getImageData(
       0,
       0,

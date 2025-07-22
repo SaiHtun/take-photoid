@@ -17,7 +17,7 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
 
     // Convert ImageData to OffscreenCanvas for processing
     const canvas = new OffscreenCanvas(imageData.width, imageData.height);
-    const ctx = canvas.getContext("2d")!;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true })!;
     ctx.putImageData(imageData, 0, 0);
 
     // send second progress
@@ -51,7 +51,9 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
       resultImageData.width,
       resultImageData.height
     );
-    const resultCtx = resultCanvas.getContext("2d")!;
+    const resultCtx = resultCanvas.getContext("2d", {
+      willReadFrequently: true,
+    })!;
 
     // Apply background color
     if (backgroundColor !== "transparent") {
