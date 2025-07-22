@@ -1,3 +1,5 @@
+import { hasGPU, isSafari } from "../utils";
+
 export type BackgroundColor = "transparent" | "white" | "blue" | "custom";
 
 export interface ProcessingJob {
@@ -12,6 +14,7 @@ export interface ProcessingJob {
 
 export interface WorkerMessage {
   id: string;
+  device: "gpu" | "cpu";
   type: "PROCESS_IMAGE";
   imageData: ImageData;
   backgroundColor: BackgroundColor;
@@ -87,7 +90,12 @@ class BackgroundRemoverService {
   }
 
   private initializeWorkers() {
-    for (let i = 0; i < this.maxWorkers; i++) {
+    // Reduce worker count for Safari to prevent crashes
+    const workerCount = isSafari()
+      ? Math.min(this.maxWorkers, 2)
+      : this.maxWorkers;
+
+    for (let i = 0; i < workerCount; i++) {
       const worker = new Worker(
         new URL("../workers/backgroundRemovalWorker.ts", import.meta.url),
         { type: "module" }
@@ -131,6 +139,7 @@ class BackgroundRemoverService {
 
     const message: WorkerMessage = {
       id: job.id,
+      device: hasGPU() ? "gpu" : "cpu",
       type: "PROCESS_IMAGE",
       imageData,
       backgroundColor: job.backgroundColor,
@@ -145,7 +154,7 @@ class BackgroundRemoverService {
       ...job,
       id: `job_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
     };
-
+    console.log("jid::", jobWithId);
     this.jobQueue.push(jobWithId);
     this.processNextJob();
     return jobWithId.id;

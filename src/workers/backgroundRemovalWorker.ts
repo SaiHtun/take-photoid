@@ -5,7 +5,7 @@ import type {
 } from "../lib/backgroundRemovalService";
 
 self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
-  const { id, imageData, backgroundColor, customBgColor } = event.data;
+  const { id, device, imageData, backgroundColor, customBgColor } = event.data;
 
   try {
     // send initial progress
@@ -27,6 +27,7 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
       progress: 25,
     } as WorkerResponse);
 
+    // can also postMessage during loading model
     const blob = await canvas.convertToBlob({ type: "image/png" });
 
     // send third progress
@@ -36,7 +37,7 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
       progress: 40,
     } as WorkerResponse);
 
-    const resultBlob = await removeBackground(blob);
+    const resultBlob = await removeBackground(blob, { device });
 
     // send fourth progress
     self.postMessage({
@@ -69,6 +70,9 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
     }
 
     resultCtx.drawImage(resultImageData, 0, 0);
+
+    // Clean up ImageBitmap to free memory
+    resultImageData.close();
 
     // send semi-final progress
     self.postMessage({
