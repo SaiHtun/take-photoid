@@ -154,7 +154,7 @@ class BackgroundRemoverService {
       ...job,
       id: `job_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
     };
-    console.log("jid::", jobWithId);
+
     this.jobQueue.push(jobWithId);
     this.processNextJob();
     return jobWithId.id;

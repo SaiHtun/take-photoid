@@ -1,0 +1,24 @@
+/* Define your font faces */
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/geist-font-1.5.0/fonts/Geist/webfonts/Geist[wght].woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/geist-font-1.5.0/fonts/GeistMono/webfonts/GeistMono[wght].woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Configure fonts using @theme directive */
+@theme {
+  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-geist: 'Geist', sans-serif;
+  --font-geist-mono: 'Geist Mono', monospace;
+}
