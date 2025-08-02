@@ -17,8 +17,8 @@
 
 /* Configure fonts using @theme directive */
 @theme {
-  --font-sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-sans: ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
   --font-geist: 'Geist', sans-serif;
   --font-geist-mono: 'Geist Mono', monospace;
 }
