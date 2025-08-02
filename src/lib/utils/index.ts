@@ -1,3 +1,6 @@
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 type NavigatorWithGPU = Navigator & { gpu?: unknown };
 
 export function hasGPU() {
@@ -23,4 +26,8 @@ export function isSafari() {
     /safari/i.test(navigator.userAgent) &&
     !/chrome|crios|edg|opr|fxios/i.test(navigator.userAgent)
   );
+}
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }

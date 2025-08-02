@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   type BackgroundColor,
   backgroundRemoverService,
-} from "./lib/backgroundRemovalService";
+} from "./lib/services/backgroundRemovalService";
 
 interface ProcessingItem {
   id: string;

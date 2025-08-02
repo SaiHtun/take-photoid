@@ -1,4 +1,4 @@
-import { hasGPU, isSafari } from "~/utils";
+import { hasGPU, isSafari } from "~/lib/utils/index";
 
 export type BackgroundColor = "transparent" | "white" | "blue" | "custom";
 
