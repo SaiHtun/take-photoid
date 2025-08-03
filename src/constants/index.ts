@@ -1,10 +1,23 @@
-const sampleImages = [
+export const sampleImages = [
   "https://plus.unsplash.com/premium_photo-1722859221349-26353eae4744?q=80&w=1336&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?q=80&w=1317&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=2148&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1671360770124-fe42927790e2?q=80&w=1288&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?q=80&w=1364&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+];
+
+export const photoIdSizes = [
+  { value: "us-51x51", country: "US", size: "51x51 mm" },
+  { value: "myanmar-35x45", country: "MM", size: "35x45 mm" },
+  { value: "uk-35x45", country: "UK", size: "35x45 mm" },
+  { value: "canada-35x45", country: "CA", size: "35x45 mm" },
+  { value: "germany-35x45", country: "DE", size: "35x45 mm" },
+  { value: "france-35x45", country: "FR", size: "35x45 mm" },
+  { value: "japan-35x45", country: "JP", size: "35x45 mm" },
+  { value: "india-35x45", country: "IN", size: "35x45 mm" },
+  { value: "brazil-50x70", country: "BR", size: "50x70 mm" },
+  { value: "china-33x48", country: "CN", size: "33x48 mm" },
 ];
 
 export function getSampleImagesAppendHeroText() {

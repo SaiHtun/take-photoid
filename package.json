@@ -22,6 +22,7 @@
   "dependencies": {
     "@biomejs/biome": "^2.1.2",
     "@imgly/background-removal": "^1.7.0",
+    "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.1.11",
     "class-variance-authority": "^0.7.1",
@@ -29,6 +30,7 @@
     "lucide-react": "^0.536.0",
     "onnxruntime-web": "1.21.0-dev.20250206-d981b153d3",
     "react": "^19.1.0",
+    "react-colorful": "^5.6.1",
     "react-dom": "^19.1.0",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11"

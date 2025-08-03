@@ -5,7 +5,8 @@
     "rules": {
       "recommended": true,
       "a11y": {
-        "recommended": true
+        "recommended": true,
+        "useKeyWithClickEvents": "off"
       },
       "complexity": {
         "recommended": true,

@@ -1,6 +1,6 @@
-// import { useState } from "react";
-import { Button } from "./components/ui/button";
-import { getSampleImagesAppendHeroText } from "./constants";
+import { useState } from "react";
+import Landing from "./components/landing";
+import Playground from "./components/playground";
 
 // import {
 //   type BackgroundColor,
@@ -17,65 +17,20 @@ import { getSampleImagesAppendHeroText } from "./constants";
 //   status: "pending" | "processing" | "completed" | "error";
 // }
 
-function HeroText(props: { key?: string }) {
-  return (
-    <div
-      key={props.key}
-      className="col-span-2 h-[220px] rounded-md bg-neutral-50 flex flex-col items-center justify-center text-2xl space-y-4"
-    >
-      <div>
-        <p>
-          take <span className="font-bold">PhotoID</span> securely--
-        </p>
-        <p>No uploads, No fees, No fuss!</p>
-      </div>
-      <div className="flex gap-4">
-        <Button>Camera</Button>
-        <Button variant={"outline"}>Photo</Button>
-      </div>
-    </div>
-  );
-}
-
 export default function App() {
-  const sampleImages = getSampleImagesAppendHeroText();
+  const [isPlayground, setIsPlayground] = useState(false);
 
   return (
     <main className="h-dvh overflow-x-hidden">
       <nav className="px-6 py-4 shadow-xs">
         <span className="inline-block font-semibold text-2xl">📸 PhotoID</span>
       </nav>
-      <section className="max-sm:w-full w-[670px] h-[450px] my-20 m-auto">
-        {/* Desktop */}
-        <div className="md:grid grid-rows-2 grid-cols-3 gap-2 px-2 hidden">
-          {sampleImages.map((src) => {
-            return src === "hero_text" ? (
-              <HeroText key={src} />
-            ) : (
-              <img
-                key={src}
-                src={src}
-                alt="animal img"
-                className="w-[220px] h-[220px] object-cover rounded-md"
-              />
-            );
-          })}
-        </div>
-
-        {/* Mobile */}
-        <div className="grid grid-cols-1 gap-2 px-2 md:hidden">
-          <HeroText />
-          <div className="flex gap-1">
-            {sampleImages.slice(3).map((src) => (
-              <img
-                key={src}
-                src={src}
-                alt="animal img"
-                className="w-[50%] h-[220px] object-cover rounded-md"
-              />
-            ))}
-          </div>
-        </div>
+      <section className="w-full sm:w-[670px] h-full min-h-[450px] my-12 sm:my-12  mx-auto">
+        {isPlayground ? (
+          <Playground setIsPlayground={setIsPlayground} />
+        ) : (
+          <Landing setIsPlayground={setIsPlayground} />
+        )}
       </section>
       <footer className="text-center w-full fixed bottom-0 left-0 bg-white py-2 shadow font-mono text-sm">
         <p>Built with ❤️ by Sai, Opensource.</p>

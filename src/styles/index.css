@@ -116,7 +116,19 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+
+/* for color picker component */
+.color_picker :is(.react-colorful__hue-pointer,
+  .react-colorful__saturation-pointer) {
+  width: 20px;
+  height: 20px;
+  cursor: grab;
+  border-radius: 100px;
 }
