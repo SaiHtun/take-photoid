@@ -12,7 +12,8 @@
         "recommended": true,
         "noExtraBooleanCast": "error",
         "noUselessCatch": "error",
-        "noUselessTypeConstraint": "error"
+        "noUselessTypeConstraint": "error",
+        "noStaticOnlyClass": "off"
       },
       "correctness": {
         "recommended": true,

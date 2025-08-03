@@ -5,7 +5,7 @@ import type {
 } from "~/lib/services/backgroundRemovalService";
 
 self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
-  const { id, device, imageData, backgroundColor, customBgColor } = event.data;
+  const { id, device, imageData, backgroundColor, customBgColor, targetDimensions } = event.data;
 
   try {
     // send initial progress
@@ -81,12 +81,51 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
       progress: 90,
     } as WorkerResponse);
 
+    // Resize to target dimensions if specified
+    let finalCanvas = resultCanvas;
+    let finalCtx = resultCtx;
+
+    if (targetDimensions && (resultCanvas.width !== targetDimensions.width || resultCanvas.height !== targetDimensions.height)) {
+      finalCanvas = new OffscreenCanvas(targetDimensions.width, targetDimensions.height);
+      finalCtx = finalCanvas.getContext("2d", { willReadFrequently: true })!;
+      
+      // Apply background color to final canvas
+      if (backgroundColor !== "transparent") {
+        const bgColor =
+          backgroundColor === "custom"
+            ? customBgColor
+            : backgroundColor === "blue"
+              ? "#4285f4"
+              : "#ffffff";
+
+        finalCtx.fillStyle = bgColor || "#ffffff";
+        finalCtx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+      }
+      
+      // Enable high-quality scaling
+      finalCtx.imageSmoothingEnabled = true;
+      finalCtx.imageSmoothingQuality = "high";
+      
+      // Draw resized image
+      finalCtx.drawImage(
+        resultCanvas,
+        0,
+        0,
+        resultCanvas.width,
+        resultCanvas.height,
+        0,
+        0,
+        targetDimensions.width,
+        targetDimensions.height
+      );
+    }
+
     // Get the final ImageData
-    const finalImageData = resultCtx.getImageData(
+    const finalImageData = finalCtx.getImageData(
       0,
       0,
-      resultCanvas.width,
-      resultCanvas.height
+      finalCanvas.width,
+      finalCanvas.height
     );
     // send semi-final progress
     self.postMessage({

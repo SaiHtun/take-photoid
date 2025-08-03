@@ -9,6 +9,7 @@ export default function PlaygroundMenu(props: {
   backgroundColor: string;
   setBackgroundColor: React.Dispatch<React.SetStateAction<string>>;
   setIsPlayground: React.Dispatch<React.SetStateAction<boolean>>;
+  onProcessImages: () => Promise<void>;
 }) {
   return (
     <div className="w-full h-10 flex items-center justify-between">
@@ -30,7 +31,10 @@ export default function PlaygroundMenu(props: {
           onColorChange={props.setBackgroundColor}
         />
       </div>
-      <Button className="cursor-pointer bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-800 opacity-80 hover:opacity-100 transition-opacity duration-1000">
+      <Button 
+        className="cursor-pointer bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-800 opacity-80 hover:opacity-100 transition-opacity duration-1000"
+        onClick={props.onProcessImages}
+      >
         <Sparkles />
       </Button>
     </div>

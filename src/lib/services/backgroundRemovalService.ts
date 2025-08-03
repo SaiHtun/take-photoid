@@ -7,6 +7,7 @@ export interface ProcessingJob {
   canvas: HTMLCanvasElement;
   backgroundColor: BackgroundColor;
   customBgColor?: string;
+  targetDimensions?: { width: number; height: number };
   onProgress?: (progress: number) => void;
   onSuccess?: (result: HTMLCanvasElement) => void;
   onError?: (error: string) => void;
@@ -19,6 +20,7 @@ export interface WorkerMessage {
   imageData: ImageData;
   backgroundColor: BackgroundColor;
   customBgColor?: string;
+  targetDimensions?: { width: number; height: number };
 }
 
 export interface WorkerResponse {
@@ -97,7 +99,7 @@ class BackgroundRemoverService {
 
     for (let i = 0; i < workerCount; i++) {
       const worker = new Worker(
-        new URL("../workers/backgroundRemovalWorker.ts", import.meta.url),
+        new URL("../../workers/backgroundRemovalWorker.ts", import.meta.url),
         { type: "module" }
       );
 
@@ -144,6 +146,7 @@ class BackgroundRemoverService {
       imageData,
       backgroundColor: job.backgroundColor,
       customBgColor: job.customBgColor,
+      targetDimensions: job.targetDimensions,
     };
 
     worker.postMessage(message);

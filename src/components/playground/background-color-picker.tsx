@@ -10,7 +10,6 @@ export default function BackgroundColorPicker(props: {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  console.log(isOpen);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
