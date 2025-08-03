@@ -28,7 +28,7 @@ export interface WorkerResponse {
 }
 
 class BackgroundRemoverService {
-  private maxWorkers: number = Math.min(navigator.hardwareConcurrency || 4, 4);
+  private maxWorkers: number = Math.min(navigator.hardwareConcurrency || 1, 4);
   private workers: Worker[] = [];
   private jobQueue: ProcessingJob[] = [];
   private activeJobs: Map<string, ProcessingJob> = new Map();

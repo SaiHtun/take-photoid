@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { sampleImages } from "~/constants";
 import { backgroundRemoverService } from "~/lib/services/backgroundRemovalService";
 import { ImageProcessingService } from "~/lib/services/imageProcessingService";
+import { useImageUpload } from "~/stores/use-file-upload";
 import PlaygroundMenu from "./playground-menu";
 
 interface ProcessedImage {
@@ -17,27 +18,33 @@ interface ProcessedImage {
 export default function Playground(props: {
   setIsPlayground: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const { images: uploadedImages } = useImageUpload();
   const [selectedSize, setSelectedSize] = useState("us-51x51");
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
   const [processedImages, setProcessedImages] = useState<ProcessedImage[]>([]);
 
-  // Initialize images only once
+  // Initialize images only once - use uploaded images if available, otherwise fallback to samples
   useEffect(() => {
-    const initialImages: ProcessedImage[] = sampleImages.map((src, index) => ({
+    const imagesToUse =
+      uploadedImages.length > 0
+        ? uploadedImages.map((img) => img.url)
+        : sampleImages;
+
+    const initialImages: ProcessedImage[] = imagesToUse.map((src, index) => ({
       id: `image-${index}`,
       originalSrc: src,
       isProcessing: false,
       progress: 0,
     }));
     setProcessedImages(initialImages);
-  }, []);
+  }, [uploadedImages]);
 
   // Reset images when settings change (without auto-processing)
   // biome-ignore lint: deps[selectedSize, backgroundColor] is required
   useEffect(() => {
     if (processedImages.length === 0) return;
     resetAllImages();
-  }, [selectedSize, backgroundColor, processedImages.length]);
+  }, [selectedSize, backgroundColor]);
 
   function resetAllImages() {
     setProcessedImages((prev) =>
@@ -158,13 +165,13 @@ export default function Playground(props: {
             <img
               src={getImagePreview(image)}
               alt="processed img"
-              className="w-full md:w-[220px] h-[220px] object-cover rounded-md"
+              className="w-full md:w-[220px] h-[220px] object-cover rounded-md border border-neutral-100 shadow-xs"
             />
             {image.isProcessing && (
               <div className="absolute inset-0 rounded-md flex flex-col items-center justify-center">
-                <div 
+                <div
                   className="absolute inset-0 bg-gray-900 rounded-md transition-opacity duration-300"
-                  style={{ opacity: Math.max(0.1, 1 - (image.progress / 100)) }}
+                  style={{ opacity: Math.max(0.1, 1 - image.progress / 100) }}
                 />
                 <div className="relative z-10 flex flex-col items-center">
                   <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mb-2"></div>

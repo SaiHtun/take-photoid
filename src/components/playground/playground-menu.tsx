@@ -31,7 +31,7 @@ export default function PlaygroundMenu(props: {
           onColorChange={props.setBackgroundColor}
         />
       </div>
-      <Button 
+      <Button
         className="cursor-pointer bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-800 opacity-80 hover:opacity-100 transition-opacity duration-1000"
         onClick={props.onProcessImages}
       >
