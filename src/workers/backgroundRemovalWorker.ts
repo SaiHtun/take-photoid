@@ -5,7 +5,8 @@ import type {
 } from "~/lib/services/backgroundRemovalService";
 
 self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
-  const { id, device, imageData, backgroundColor, customBgColor, targetDimensions } = event.data;
+  const { id, device, imageData, backgroundColor, targetDimensions } =
+    event.data;
 
   try {
     // send initial progress
@@ -57,17 +58,8 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
     })!;
 
     // Apply background color
-    if (backgroundColor !== "transparent") {
-      const bgColor =
-        backgroundColor === "custom"
-          ? customBgColor
-          : backgroundColor === "blue"
-            ? "#4285f4"
-            : "#ffffff";
-
-      resultCtx.fillStyle = bgColor || "#ffffff";
-      resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
-    }
+    resultCtx.fillStyle = backgroundColor;
+    resultCtx.fillRect(0, 0, resultCanvas.width, resultCanvas.height);
 
     resultCtx.drawImage(resultImageData, 0, 0);
 
@@ -85,27 +77,25 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
     let finalCanvas = resultCanvas;
     let finalCtx = resultCtx;
 
-    if (targetDimensions && (resultCanvas.width !== targetDimensions.width || resultCanvas.height !== targetDimensions.height)) {
-      finalCanvas = new OffscreenCanvas(targetDimensions.width, targetDimensions.height);
+    if (
+      targetDimensions &&
+      (resultCanvas.width !== targetDimensions.width ||
+        resultCanvas.height !== targetDimensions.height)
+    ) {
+      finalCanvas = new OffscreenCanvas(
+        targetDimensions.width,
+        targetDimensions.height
+      );
       finalCtx = finalCanvas.getContext("2d", { willReadFrequently: true })!;
-      
-      // Apply background color to final canvas
-      if (backgroundColor !== "transparent") {
-        const bgColor =
-          backgroundColor === "custom"
-            ? customBgColor
-            : backgroundColor === "blue"
-              ? "#4285f4"
-              : "#ffffff";
 
-        finalCtx.fillStyle = bgColor || "#ffffff";
-        finalCtx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
-      }
-      
+      // Apply background color to final canvas
+      finalCtx.fillStyle = backgroundColor;
+      finalCtx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+
       // Enable high-quality scaling
       finalCtx.imageSmoothingEnabled = true;
       finalCtx.imageSmoothingQuality = "high";
-      
+
       // Draw resized image
       finalCtx.drawImage(
         resultCanvas,
@@ -127,7 +117,7 @@ self.onmessage = async (event: MessageEvent<WorkerMessage>) => {
       finalCanvas.width,
       finalCanvas.height
     );
-    // send semi-final progress
+    // send final progress
     self.postMessage({
       id,
       type: "SUCCESS",

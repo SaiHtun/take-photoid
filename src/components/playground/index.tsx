@@ -103,9 +103,7 @@ export default function Playground(props: {
 
       backgroundRemoverService.processImage({
         canvas: processedData.canvas,
-        backgroundColor: backgroundColor === "#ffffff" ? "white" : "custom",
-        customBgColor:
-          backgroundColor !== "#ffffff" ? backgroundColor : undefined,
+        backgroundColor: backgroundColor,
         targetDimensions: dims || undefined,
         onProgress: (progress) => {
           updateImage({ progress: 30 + progress * 0.6 });
@@ -163,11 +161,17 @@ export default function Playground(props: {
               className="w-full md:w-[220px] h-[220px] object-cover rounded-md"
             />
             {image.isProcessing && (
-              <div className="absolute inset-0 bg-black bg-opacity-50 rounded-md flex flex-col items-center justify-center">
-                <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin mb-2"></div>
-                <span className="text-white text-sm">
-                  {Math.round(image.progress)}%
-                </span>
+              <div className="absolute inset-0 rounded-md flex flex-col items-center justify-center">
+                <div 
+                  className="absolute inset-0 bg-gray-900 rounded-md transition-opacity duration-300"
+                  style={{ opacity: Math.max(0.1, 1 - (image.progress / 100)) }}
+                />
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mb-2"></div>
+                  <span className="text-white text-sm font-medium drop-shadow-lg">
+                    {Math.round(image.progress)}%
+                  </span>
+                </div>
               </div>
             )}
             {image.error && (

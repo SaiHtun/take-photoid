@@ -1,12 +1,9 @@
 import { hasGPU, isSafari } from "~/lib/utils/index";
 
-export type BackgroundColor = "transparent" | "white" | "blue" | "custom";
-
 export interface ProcessingJob {
   id: string;
   canvas: HTMLCanvasElement;
-  backgroundColor: BackgroundColor;
-  customBgColor?: string;
+  backgroundColor: string; // color-hex string
   targetDimensions?: { width: number; height: number };
   onProgress?: (progress: number) => void;
   onSuccess?: (result: HTMLCanvasElement) => void;
@@ -18,8 +15,7 @@ export interface WorkerMessage {
   device: "gpu" | "cpu";
   type: "PROCESS_IMAGE";
   imageData: ImageData;
-  backgroundColor: BackgroundColor;
-  customBgColor?: string;
+  backgroundColor: string;
   targetDimensions?: { width: number; height: number };
 }
 
@@ -145,7 +141,6 @@ class BackgroundRemoverService {
       type: "PROCESS_IMAGE",
       imageData,
       backgroundColor: job.backgroundColor,
-      customBgColor: job.customBgColor,
       targetDimensions: job.targetDimensions,
     };
 
@@ -164,5 +159,4 @@ class BackgroundRemoverService {
   }
 }
 
-// Signleton babe!
 export const backgroundRemoverService = new BackgroundRemoverService();

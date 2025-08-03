@@ -43,7 +43,7 @@ export class ImageProcessingService {
       const img = new Image();
       img.crossOrigin = "anonymous";
       img.onload = () => resolve(img);
-      img.onerror = (error) =>
+      img.onerror = () =>
         reject(new Error(`Failed to load image from URL: ${url}`));
       img.src = url;
     });
@@ -58,7 +58,7 @@ export class ImageProcessingService {
         URL.revokeObjectURL(url);
         resolve(img);
       };
-      img.onerror = (error) => {
+      img.onerror = () => {
         URL.revokeObjectURL(url);
         reject(new Error(`Failed to load image from file: ${file.name}`));
       };
