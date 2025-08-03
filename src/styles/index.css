@@ -122,11 +122,9 @@
   }
 }
 
-
-
 /* for color picker component */
-.color_picker :is(.react-colorful__hue-pointer,
-  .react-colorful__saturation-pointer) {
+.color_picker
+:is(.react-colorful__hue-pointer, .react-colorful__saturation-pointer) {
   width: 20px;
   height: 20px;
   cursor: grab;
