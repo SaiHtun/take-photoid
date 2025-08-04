@@ -1,6 +1,6 @@
 import { useState } from "react";
 import CustomLink from "./components/custom-link";
-import Landing from "./components/landing";
+import LandingPage from "./components/landing-page";
 import Playground from "./components/playground";
 
 export default function App() {
@@ -28,7 +28,7 @@ export default function App() {
         {isPlayground ? (
           <Playground setIsPlayground={setIsPlayground} />
         ) : (
-          <Landing setIsPlayground={setIsPlayground} />
+          <LandingPage setIsPlayground={setIsPlayground} />
         )}
       </section>
       <div className="h-10"></div>

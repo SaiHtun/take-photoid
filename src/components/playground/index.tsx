@@ -98,10 +98,7 @@ export default function Playground(props: {
         (img) => img.id === imageId && img.selected
       );
 
-      if (!currentImage) {
-        console.error("Could not find image with id:", imageId);
-        return;
-      }
+      if (!currentImage) return;
 
       updateImage(imageId, {
         isProcessing: true,

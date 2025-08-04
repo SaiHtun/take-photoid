@@ -25,7 +25,7 @@ function HeroCard(props: {
   );
 }
 
-export default function Landing(props: {
+export default function LandingPage(props: {
   setIsPlayground: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const sampleImages = getSampleImagesAppendHeroText();

@@ -19,5 +19,19 @@
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
+  ],
+  "screenshots": [
+    {
+      "src": "/landing-page.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/playground.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
   ]
 }
