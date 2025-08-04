@@ -38,7 +38,7 @@ export default function BackgroundColorPicker(props: {
   }, [isOpen]);
 
   return (
-    <div ref={containerRef} className="relative w-[140px] h-9">
+    <div ref={containerRef} className="relative w-[150px] h-9 grow sm:grow-0">
       <Button
         variant="outline"
         className="h-full flex items-center justify-between space-x-2 px-3 cursor-pointer"

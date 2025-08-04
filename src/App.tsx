@@ -6,7 +6,7 @@ export default function App() {
   const [isPlayground, setIsPlayground] = useState(false);
 
   return (
-    <main className="h-dvh overflow-x-hidden">
+    <main className="min-h-dvh overflow-x-hidden">
       <nav className="px-6 py-4 shadow-xs">
         <span className="inline-block font-semibold text-2xl">📸 PhotoID</span>
       </nav>

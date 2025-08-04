@@ -276,7 +276,7 @@ export default function Playground(props: {
       </div>
 
       {hasSelectedImages() && (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center z-50">
           <Button
             variant="secondary"
             size="icon"

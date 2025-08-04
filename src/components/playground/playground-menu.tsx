@@ -15,31 +15,30 @@ export default function PlaygroundMenu(props: {
   onProcessImages: () => Promise<void>;
 }) {
   return (
-    <div className="w-full h-10 flex items-center justify-between">
-      <div className="flex items-center space-x-4">
-        {!props.isUploadedImages && (
-          <Button
-            variant="secondary"
-            size="icon"
-            className="size-8 cursor-pointer"
-            onClick={() => props.setIsPlayground(false)}
-          >
-            <ArrowLeft />
-          </Button>
-        )}
+    <div className="w-full sm:h-10 flex items-center justify-between flex-wrap gap-2">
+      {!props.isUploadedImages && (
+        <Button
+          variant="secondary"
+          size="icon"
+          className="size-8 cursor-pointer"
+          onClick={() => props.setIsPlayground(false)}
+        >
+          <ArrowLeft />
+        </Button>
+      )}
 
-        <PhotoSizeSelector
-          selectedSize={props.selectedSize}
-          onSizeChange={props.setSelectedSize}
-        />
-        <BackgroundColorPicker
-          color={props.backgroundColor}
-          onColorChange={props.setBackgroundColor}
-        />
-        {props.isUploadedImages && <AddPhotosButton twClasses={"ml-2"} />}
-      </div>
+      <PhotoSizeSelector
+        selectedSize={props.selectedSize}
+        onSizeChange={props.setSelectedSize}
+      />
+      <BackgroundColorPicker
+        color={props.backgroundColor}
+        onColorChange={props.setBackgroundColor}
+      />
+      {props.isUploadedImages && <AddPhotosButton />}
+
       <Button
-        className="cursor-pointer bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-800 opacity-80 hover:opacity-100 transition-opacity duration-1000"
+        className="grow cursor-pointer bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-800 opacity-80 hover:opacity-100 transition-opacity duration-1000"
         disabled={!props.hasSelectedImages}
         onClick={props.onProcessImages}
       >
