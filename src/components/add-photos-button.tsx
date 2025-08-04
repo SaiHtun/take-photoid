@@ -29,13 +29,13 @@ export default function AddPhotosButton(props: {
   return (
     <div
       className={cn(
-        "outline h-9 outline-neutral-200 rounded-md flex items-center cursor-pointer bg-white shadow-xs group",
+        "h-9 rounded-md flex items-center cursor-pointer bg-blue-600 text-neutral-50 shadow-sm group",
         props.twClasses
       )}
     >
       <Label
         htmlFor="photo"
-        className="cursor-pointer group-hover:bg-accent  w-full h-full px-4"
+        className="cursor-pointer group-hover:bg-blue-700 w-full h-full px-4 rounded-md"
       >
         Photos
       </Label>

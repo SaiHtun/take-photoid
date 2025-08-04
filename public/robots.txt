@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://takephotoid.com/sitemap.xml
+
+# Block crawlers from accessing source maps and other technical files
+Disallow: /*.map$
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /.git/

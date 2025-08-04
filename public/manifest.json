@@ -1,0 +1,23 @@
+{
+  "name": "PhotoID - Free Online Photo ID Maker",
+  "short_name": "PhotoID",
+  "description": "Create professional passport photos, visa photos, and ID pictures instantly with AI background removal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "categories": [
+    "photo",
+    "productivity",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "/photoid-favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
