@@ -44,32 +44,9 @@ export default function Playground(props: {
     setProcessedImages(initialImages);
   }, [uploadedImages]);
 
-  // Reset images when settings change (without auto-processing)
-  // biome-ignore lint: deps[selectedSize, backgroundColor] is required
-  useEffect(() => {
-    if (processedImages.length === 0) return;
-    resetAllImages();
-  }, [selectedSize, backgroundColor]);
-
-  function resetAllImages() {
-    setProcessedImages((prev) =>
-      prev.map((img) => ({
-        ...img,
-        finalCanvas: undefined,
-        processedCanvas: undefined,
-        isProcessing: false,
-        progress: 0,
-        error: undefined,
-      }))
-    );
-  }
-
   const processAllImages = async () => {
     const currentImages = processedImages;
     if (currentImages.length === 0) return;
-
-    // Reset all images first
-    resetAllImages();
 
     // Process all images concurrently using the background workers
     const processingPromises = currentImages.map(async (image) => {
