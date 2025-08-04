@@ -156,8 +156,7 @@ export default function Playground(props: {
   const handleDownloadImages = () => {
     const selectedImages = getSelectedImages();
 
-    selectedImages.forEach((image, index) => {
-      // Get the best available image data
+    selectedImages.forEach(async (image, index) => {
       let dataUrl = "";
 
       if (image.finalCanvas) {
@@ -166,23 +165,25 @@ export default function Playground(props: {
         dataUrl = image.processedCanvas.toDataURL("image/png");
       } else {
         // For original images, we need to convert to canvas first
-        const img = new Image();
-        img.crossOrigin = "anonymous";
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx?.drawImage(img, 0, 0);
-          dataUrl = canvas.toDataURL("image/png");
-          downloadImage(dataUrl, `photo-${index + 1}.png`);
-        };
-        img.src = image.originalSrc;
-        return; // Skip the immediate download for this image
+        dataUrl = await new Promise<string>((resolve) => {
+          const img = new Image();
+          img.crossOrigin = "anonymous";
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx?.drawImage(img, 0, 0);
+            resolve(canvas.toDataURL("image/png"));
+          };
+          img.src = image.originalSrc;
+        });
       }
 
       if (dataUrl) {
         downloadImage(dataUrl, `photo-${index + 1}.png`);
+        // Add small delay to prevent browser from blocking multiple downloads
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
     });
   };
