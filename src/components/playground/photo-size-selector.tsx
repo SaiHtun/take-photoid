@@ -16,7 +16,7 @@ export default function PhotoSizeSelector({
 }) {
   return (
     <Select value={selectedSize} onValueChange={onSizeChange}>
-      <SelectTrigger className="w-[160px]">
+      <SelectTrigger className="w-[160px] cursor-pointer">
         <SelectValue placeholder="Select size" />
       </SelectTrigger>
       <SelectContent>

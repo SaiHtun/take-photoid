@@ -10,7 +10,7 @@ export default function App() {
       <nav className="px-6 py-4 shadow-xs">
         <span className="inline-block font-semibold text-2xl">📸 PhotoID</span>
       </nav>
-      <section className="w-full sm:w-[670px] h-full min-h-[450px] my-12 sm:my-12  mx-auto">
+      <section className="w-full sm:w-[670px] h-full min-h-[450px] mb-12 sm:my-12  mx-auto">
         {isPlayground ? (
           <Playground setIsPlayground={setIsPlayground} />
         ) : (

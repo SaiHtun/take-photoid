@@ -1,8 +1,11 @@
+import { Download, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { sampleImages } from "~/constants";
 import { backgroundRemoverService } from "~/lib/services/backgroundRemovalService";
 import { ImageProcessingService } from "~/lib/services/imageProcessingService";
+import { cn } from "~/lib/utils";
 import { useImageUpload } from "~/stores/use-file-upload";
+import { Button } from "../ui/button";
 import PlaygroundMenu from "./playground-menu";
 
 interface ProcessedImage {
@@ -10,6 +13,7 @@ interface ProcessedImage {
   originalSrc: string;
   processedCanvas?: HTMLCanvasElement;
   finalCanvas?: HTMLCanvasElement;
+  selected: boolean;
   isProcessing: boolean;
   progress: number;
   error?: string;
@@ -34,6 +38,7 @@ export default function Playground(props: {
       id: `image-${index}`,
       originalSrc: src,
       isProcessing: false,
+      selected: false,
       progress: 0,
     }));
     setProcessedImages(initialImages);
@@ -80,31 +85,40 @@ export default function Playground(props: {
     await Promise.all(processingPromises);
   };
 
-  const processImage = async (imageId: string) => {
-    const updateImage = (updates: Partial<ProcessedImage>) => {
-      setProcessedImages((prev) =>
-        prev.map((img) => (img.id === imageId ? { ...img, ...updates } : img))
-      );
-    };
+  const updateImage = (imageId: string, updates: Partial<ProcessedImage>) => {
+    setProcessedImages((prev) =>
+      prev.map((img) => (img.id === imageId ? { ...img, ...updates } : img))
+    );
+  };
 
+  const processImage = async (imageId: string) => {
     try {
       const currentImages = processedImages;
-      const currentImage = currentImages.find((img) => img.id === imageId);
+      const currentImage = currentImages.find(
+        (img) => img.id === imageId && img.selected
+      );
 
       if (!currentImage) {
         console.error("Could not find image with id:", imageId);
         return;
       }
 
-      updateImage({ isProcessing: true, progress: 0, error: undefined });
-      updateImage({ progress: 10 });
+      updateImage(imageId, {
+        isProcessing: true,
+        progress: 0,
+        error: undefined,
+      });
+      updateImage(imageId, { progress: 10 });
 
       const processedData = await ImageProcessingService.processImageFromUrl(
         currentImage.originalSrc,
         selectedSize
       );
 
-      updateImage({ progress: 30, processedCanvas: processedData.canvas });
+      updateImage(imageId, {
+        progress: 30,
+        processedCanvas: processedData.canvas,
+      });
 
       const dims = ImageProcessingService.parseSizeFromValue(selectedSize);
 
@@ -113,17 +127,17 @@ export default function Playground(props: {
         backgroundColor: backgroundColor,
         targetDimensions: dims || undefined,
         onProgress: (progress) => {
-          updateImage({ progress: 30 + progress * 0.6 });
+          updateImage(imageId, { progress: 30 + progress * 0.6 });
         },
         onSuccess: (resultCanvas) => {
-          updateImage({
+          updateImage(imageId, {
             finalCanvas: resultCanvas,
             isProcessing: false,
             progress: 100,
           });
         },
         onError: (error) => {
-          updateImage({
+          updateImage(imageId, {
             isProcessing: false,
             error,
             progress: 0,
@@ -131,7 +145,7 @@ export default function Playground(props: {
         },
       });
     } catch (error) {
-      updateImage({
+      updateImage(imageId, {
         isProcessing: false,
         error: error instanceof Error ? error.message : "Processing failed",
         progress: 0,
@@ -149,10 +163,71 @@ export default function Playground(props: {
     return image.originalSrc;
   };
 
+  const handleDeleteImages = () => {
+    if (hasSelectedImages()) {
+      setProcessedImages((prevImage) =>
+        prevImage.filter((img) => !img.selected)
+      );
+    }
+  };
+
+  const getSelectedImages = () => {
+    return processedImages.filter((img) => img.selected);
+  };
+
+  const hasSelectedImages = () => {
+    return getSelectedImages().length > 0;
+  };
+
+  const handleDownloadImages = () => {
+    const selectedImages = getSelectedImages();
+
+    selectedImages.forEach((image, index) => {
+      // Get the best available image data
+      let dataUrl = "";
+
+      if (image.finalCanvas) {
+        dataUrl = image.finalCanvas.toDataURL("image/png");
+      } else if (image.processedCanvas) {
+        dataUrl = image.processedCanvas.toDataURL("image/png");
+      } else {
+        // For original images, we need to convert to canvas first
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx?.drawImage(img, 0, 0);
+          dataUrl = canvas.toDataURL("image/png");
+          downloadImage(dataUrl, `photo-${index + 1}.png`);
+        };
+        img.src = image.originalSrc;
+        return; // Skip the immediate download for this image
+      }
+
+      if (dataUrl) {
+        downloadImage(dataUrl, `photo-${index + 1}.png`);
+      }
+    });
+  };
+
+  const downloadImage = (dataUrl: string, filename: string) => {
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
-    <section className="px-2 space-y-6">
+    <section className="px-2 space-y-6 mt-12">
       <PlaygroundMenu
+        isUploadedImages={uploadedImages.length > 0}
         selectedSize={selectedSize}
+        hasSelectedImages={hasSelectedImages()}
         setSelectedSize={setSelectedSize}
         backgroundColor={backgroundColor}
         setBackgroundColor={setBackgroundColor}
@@ -165,7 +240,15 @@ export default function Playground(props: {
             <img
               src={getImagePreview(image)}
               alt="processed img"
-              className="w-full md:w-[220px] h-[220px] object-cover rounded-md border border-neutral-100 shadow-xs"
+              className={cn(
+                "w-full md:w-[220px] h-[220px] object-cover rounded-md border border-neutral-100 shadow-xs cursor-pointer",
+                {
+                  "outline-2 outline-blue-500": image.selected,
+                }
+              )}
+              onClick={() =>
+                updateImage(image.id, { selected: !image.selected })
+              }
             />
             {image.isProcessing && (
               <div className="absolute inset-0 rounded-md flex flex-col items-center justify-center">
@@ -191,6 +274,37 @@ export default function Playground(props: {
           </div>
         ))}
       </div>
+
+      {hasSelectedImages() && (
+        <div className="flex justify-between items-center">
+          <Button
+            variant="secondary"
+            size="icon"
+            className="size-10 cursor-pointer group rounded-full shadow-xs"
+            onClick={handleDeleteImages}
+          >
+            <Trash2 className="text-red-600 group-hover:text-red-600/60 transition-colors" />
+          </Button>
+          <div className="rounded-3xl bg-neutral-100 px-6 py-2 text-sm">
+            <p className="space-x-2">
+              <span className="text-neutral-500">selected</span>
+              <span>
+                {getSelectedImages().length}
+                {"  "}
+                {getSelectedImages().length === 1 ? "photo" : "photos"}
+              </span>
+            </p>
+          </div>
+          <Button
+            variant="secondary"
+            size="icon"
+            className="size-10 cursor-pointer group rounded-full shadow-xs"
+            onClick={handleDownloadImages}
+          >
+            <Download className="text-blue-600 group-hover:text-blue-600/60 transition-colors" />
+          </Button>
+        </div>
+      )}
     </section>
   );
 }

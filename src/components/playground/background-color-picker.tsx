@@ -38,18 +38,18 @@ export default function BackgroundColorPicker(props: {
   }, [isOpen]);
 
   return (
-    <div
-      ref={containerRef}
-      className="relative w-[140px] h-9 border border-neutral-200 rounded-md"
-    >
-      <div className="h-full flex items-center justify-between space-x-2 px-3">
+    <div ref={containerRef} className="relative w-[140px] h-9">
+      <Button
+        variant="outline"
+        className="h-full flex items-center justify-between space-x-2 px-3 cursor-pointer"
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <span className="font-geist-mono text-sm">Background</span>
-        <Button
+        <div
           className="w-6 h-6 p-0 rounded-full border border-neutral-200 cursor-pointer hover:opacity-88"
           style={{ backgroundColor: props.color }}
-          onClick={() => setIsOpen(!isOpen)}
-        ></Button>
-      </div>
+        ></div>
+      </Button>
 
       <HexColorPicker
         color={props.color}
