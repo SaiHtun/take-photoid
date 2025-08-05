@@ -1,7 +1,6 @@
 import type { ClassValue } from "clsx";
 import { cn } from "~/lib/utils";
-import { validateImageFile } from "~/lib/utils/imageUtils";
-import { useImageUpload } from "~/stores/use-file-upload";
+import { useImageUpload } from "~/stores/use-image-upload";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
@@ -15,9 +14,7 @@ export default function AddPhotosButton(props: {
     const files = event.target.files;
     if (files) {
       Array.from(files).forEach((file) => {
-        if (validateImageFile(file)) {
-          addImage(file);
-        }
+        addImage(file);
       });
       // Navigate to <Playground /> after uploading images
       if (files.length > 0) {

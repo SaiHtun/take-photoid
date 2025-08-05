@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { validateImageFile } from "~/lib/utils/imageUtils";
 
 interface UploadedImage {
   file: File;
@@ -16,6 +17,8 @@ interface ImageUploadState {
 export const useImageUpload = create<ImageUploadState>((set, get) => ({
   images: [],
   addImage: (image) => {
+    if (!validateImageFile(image).isValid) return;
+
     const url = URL.createObjectURL(image);
     const id = `${Date.now()}-${image.name}`;
     set((state) => ({

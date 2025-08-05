@@ -4,7 +4,7 @@ import { sampleImages } from "~/constants";
 import { backgroundRemoverService } from "~/lib/services/backgroundRemovalService";
 import { ImageProcessingService } from "~/lib/services/imageProcessingService";
 import { cn } from "~/lib/utils";
-import { useImageUpload } from "~/stores/use-file-upload";
+import { useImageUpload } from "~/stores/use-image-upload";
 import { Button } from "../ui/button";
 import PlaygroundMenu from "./playground-menu";
 
