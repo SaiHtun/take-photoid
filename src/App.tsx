@@ -11,7 +11,7 @@ export default function App() {
       <nav className="px-6 py-4 shadow-xs" aria-label="Main navigation">
         <div className="flex items-center justify-between">
           <h1 className="inline-block font-geist font-bold text-2xl text-blue-600">
-            📸 PhotoID
+            📸 ID Photo
           </h1>
           <span className="text-sm text-gray-600 hidden sm:inline">
             Free • Secure • Professional

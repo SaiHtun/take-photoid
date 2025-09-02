@@ -1,4 +1,4 @@
-# 📸 PhotoID - Free AI Photo ID Maker
+# 📸 Free AI powered ID Photo Maker
 
 [![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-black)](https://vercel.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)

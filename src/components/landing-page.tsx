@@ -9,7 +9,7 @@ function HeroCard(props: {
     <div className="col-span-2 h-[220px] rounded-md border border-dashed border-neutral-200 flex flex-col items-center justify-center text-2xl space-y-4">
       <div className="text-center">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-          Create <span className="text-blue-600">Photo IDs</span> Instantly
+          Create <span className="text-blue-600">ID Photos</span> Instantly
         </h1>
         <p className="text-sm sm:text-lg text-gray-700 mb-1">
           Free passport photos, visa photos & ID pictures
@@ -37,8 +37,8 @@ export default function LandingPage(props: {
         <div className="max-w-4xl mx-auto space-y-1">
           <p className=" text-neutral-800">
             Your free
-            <span className="font-semibold"> AI Photo ID </span>maker for all
-            your document needs
+            <span className="font-semibold"> AI powered ID Photo </span>maker
+            for all your document needs
           </p>
           <p className="mb-4 flex items-center justify-center gap-2 ">
             <Pulse />
